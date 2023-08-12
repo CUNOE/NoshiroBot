@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  qsign:
+    image: ghcr.io/fuqiuluo/unidbg-fetch-qsign:master
+    ports:
+      - "11001:8080"
+#    volumes:
+#      - ./qsign/txlib/8.9.63:/txlib/8.9.63
+#    environment:
+#      - BASE_PATH=/txlib/8.9.63/
+    container_name: qsign
+    restart: always
+    networks:
+      - noshiro_net
+
+  go-cqhttp:
+    build:
+      context: ./go-cqhttp
+      dockerfile: ./Dockerfile
+    restart: always
+    container_name: go-cqhttp
+    ports:
+      - "11002:8080"
+    volumes:
+      - ./go-cqhttp-data:/data
+    networks:
+      - noshiro_net
+
+  noshiro-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    container_name: noshiro-bot
+    networks:
+      - noshiro_net
+
+networks:
+  noshiro_net:
+    driver: bridge

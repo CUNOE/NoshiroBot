@@ -1,0 +1,13 @@
+[Unit]
+Description=Noshiro-Nonebot2
+After=network.target syslog.target
+Wants=network.target
+
+[Service]
+WorkingDirectory=/home/cunoe/services/noshiro-bot
+Type=simple
+Restart=always
+ExecStart=/home/cunoe/miniconda3/envs/nonebot/bin/python bot.py
+
+[Install]
+WantedBy=multi-user.target
